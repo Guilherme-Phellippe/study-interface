@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useQuestionStore } from '../stores/questionStore';
 import { useQuizStore } from '../stores/quizStore';
-import type { QuizConfig } from '../lib/database.types';
+import type { QuizConfig } from '../@types/database.types';
 import { Play } from 'lucide-react';
 
 interface QuizConfigProps {

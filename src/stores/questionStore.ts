@@ -1,6 +1,6 @@
 import { create } from 'zustand';
 import { supabase } from '../lib/supabase';
-import type { Question } from '../lib/database.types';
+import type { Question } from '../@types/database.types';
 
 interface QuestionState {
   questions: Question[];

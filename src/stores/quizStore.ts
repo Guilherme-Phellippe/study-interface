@@ -1,6 +1,6 @@
 import { create } from 'zustand';
 import { supabase } from '../lib/supabase';
-import type { Question, QuizSession, QuizResult, QuizConfig } from '../lib/database.types';
+import type { Question, QuizSession, QuizConfig } from '../@types/database.types';
 
 interface QuizQuestion extends Question {
   options?: string[];
@@ -31,6 +31,7 @@ export const useQuizStore = create<QuizState>((set, get) => ({
   startQuiz: async (config: QuizConfig, questionCount: number) => {
     set({ loading: true });
     try {
+
       const { data: { user } } = await supabase.auth.getUser();
       if (!user) throw new Error('Not authenticated');
 
@@ -62,6 +63,7 @@ export const useQuizStore = create<QuizState>((set, get) => ({
 
         let options: string[] | undefined;
         if (questionType === 'multiple') {
+
           const wrongAnswers = allQuestions
             .filter(other => other.id !== q.id && other.subject === q.subject)
             .map(other => other.answer)
@@ -69,6 +71,7 @@ export const useQuizStore = create<QuizState>((set, get) => ({
             .slice(0, 3);
 
           options = [q.answer, ...wrongAnswers].sort(() => Math.random() - 0.5);
+
         }
 
         return { ...q, options, questionType };
@@ -79,7 +82,7 @@ export const useQuizStore = create<QuizState>((set, get) => ({
         .insert([{
           user_id: user.id,
           total_questions: quizQuestions.length,
-          config,
+          config: config as any,
         }])
         .select()
         .single();

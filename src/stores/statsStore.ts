@@ -1,6 +1,6 @@
 import { create } from 'zustand';
 import { supabase } from '../lib/supabase';
-import type { Question, QuizSession } from '../lib/database.types';
+import type { Question, QuizSession } from '../@types/database.types';
 
 interface SubjectStats {
   subject: string;

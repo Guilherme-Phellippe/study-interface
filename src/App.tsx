@@ -98,7 +98,7 @@ function App() {
                 }`}
               >
                 <Play className="w-5 h-5" />
-                <span className="font-medium">Nova Prova</span>
+                <span className="font-medium whitespace-nowrap">Nova Prova</span>
               </button>
 
               <button
