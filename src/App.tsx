@@ -4,7 +4,7 @@ import { useQuizStore } from './stores/quizStore';
 import { Auth } from './components/Auth';
 import { Questions } from './components/Questions';
 import { QuizConfig } from './components/QuizConfig';
-import { Quiz } from './components/Quiz';
+import { Quiz } from './components/Quiz/Quiz';
 import { QuizResults } from './components/QuizResults';
 import { Stats } from './components/Stats';
 import { BookOpen, BarChart3, LogOut, Play } from 'lucide-react';
@@ -75,8 +75,8 @@ function App() {
 
       {currentView !== 'quiz' && currentView !== 'quiz-results' && (
         <nav className="bg-white border-b border-gray-200">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="flex gap-4">
+          <div className="max-w-7xl mx-auto px-0 md:px-4 sm:px-6 lg:px-8">
+            <div className="flex gap-0 md:gap-2">
               <button
                 onClick={() => setCurrentView('questions')}
                 className={`flex items-center gap-2 px-4 py-3 border-b-2 transition-colors ${

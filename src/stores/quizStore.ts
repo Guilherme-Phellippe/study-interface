@@ -2,7 +2,7 @@ import { create } from 'zustand';
 import { supabase } from '../lib/supabase';
 import type { Question, QuizSession, QuizConfig } from '../@types/database.types';
 
-interface QuizQuestion extends Question {
+export interface QuizQuestion extends Question {
   options?: string[];
   questionType: 'multiple' | 'free';
 }
@@ -15,7 +15,7 @@ interface QuizState {
   wrongQuestions: string[];
   loading: boolean;
   startQuiz: (config: QuizConfig, questionCount: number) => Promise<void>;
-  submitAnswer: (questionId: string, answer: string) => Promise<void>;
+  submitAnswer: (questionId: string, answer: string, isCorrect: boolean) => Promise<void>;
   completeQuiz: () => Promise<void>;
   resetQuiz: () => void;
 }
@@ -65,10 +65,10 @@ export const useQuizStore = create<QuizState>((set, get) => ({
         if (questionType === 'multiple') {
 
           const wrongAnswers = allQuestions
-            .filter(other => other.id !== q.id && other.subject === q.subject)
+            .filter((other) => other.id !== q.id && other.subject === q.subject)
             .map(other => other.answer)
             .sort(() => Math.random() - 0.5)
-            .slice(0, 3);
+            .slice(0, 5);
 
           options = [q.answer, ...wrongAnswers].sort(() => Math.random() - 0.5);
 
@@ -101,14 +101,14 @@ export const useQuizStore = create<QuizState>((set, get) => ({
     }
   },
 
-  submitAnswer: async (questionId: string, answer: string) => {
+  submitAnswer: async (questionId: string, answer: string, isCorrect: boolean) => {
     const { currentSession, questions, answers, wrongQuestions } = get();
+
     if (!currentSession) return;
 
     const question = questions.find(q => q.id === questionId);
-    if (!question) return;
 
-    const isCorrect = answer.toLowerCase().trim() === question.answer.toLowerCase().trim();
+    if (!question) return;
 
     const newAnswers = new Map(answers);
     newAnswers.set(questionId, { answer, isCorrect });
